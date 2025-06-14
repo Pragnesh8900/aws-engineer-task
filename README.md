@@ -1,8 +1,10 @@
-# AWS ECS Fargate Sample App Deployment
+# 📦 AWS ECS Fargate Sample App Deployment
 
 This Terraform project deploys a containerized sample application on AWS ECS Fargate with a modular infrastructure setup. The infrastructure includes a VPC with public and private subnets across two availability zones, an Application Load Balancer (ALB), an S3 bucket for static assets, an ECR repository for the container image, and necessary IAM roles.
 
-## Project Structure
+---
+
+## ✅ Project Structure
 
 ```
 ecs-sample-app/
@@ -37,7 +39,9 @@ ecs-sample-app/
 │   │   └── outputs.tf
 ```
 
-## Infrastructure Components
+---
+
+## 📋 Infrastructure Components
 
 - **VPC**: A VPC with public and private subnets across two AZs, an Internet Gateway, and a NAT Gateway for outbound internet access.
 - **ECR**: An Elastic Container Registry repository to store the container image.
@@ -46,22 +50,27 @@ ecs-sample-app/
 - **S3**: A public-read S3 bucket for storing static assets.
 - **IAM**: Roles and policies for ECS task execution, with permissions to access S3 and pull images from ECR.
 
-## Prerequisites
+---
+
+## 📋 Prerequisites
 
 - **Terraform**: Version 1.5 or later.
 - **AWS CLI**: Configured with appropriate credentials (`~/.aws/credentials` or environment variables).
 - **Docker**: Installed for building and pushing the container image to ECR.
 - **AWS Account**: With permissions to create VPC, ECS, ALB, S3, ECR, and IAM resources.
 
-## Setup Instructions
+---
 
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd <folder-name>
-   ```
+## 🛠️ Setup Instructions
 
-2. **Configure Variables**:
+### 1. **Clone the Repository**:
+  -  
+     ```bash
+     git clone <repository-url>
+     cd <folder-name>
+     ```
+
+### 2. **Configure Variables**:
   - The `variables.tf` and `terraform.tfvars` files serve distinct but complementary purposes in a Terraform project:
   - `variables.tf`: This file defines the variables used in your Terraform configuration. It specifies the variable names, types, descriptions, and optionally default values. It acts as a blueprint for the input parameters your configuration expects.
   - `terraform.tfvars`: This file provides values for the variables defined in variables.tf. It allows you to set specific values for those variables without hardcoding them in the configuration files, making it easier to customize deployments for different environments or use cases.
@@ -78,12 +87,13 @@ ecs-sample-app/
      ecr_repository_name = "sample-app-repo"
      ```
 
-3. **Initialize Terraform**:
-   ```bash
-   terraform init
-   ```
+### 3. **Initialize Terraform**:
+  -  
+     ```bash
+     terraform init
+     ```
 
-4. **Push Container Image to ECR**:
+### 4. **Push Container Image to ECR**:
    - Apply the Terraform configuration to create the ECR repository:
      ```bash
      terraform apply -target=module.ecr
@@ -102,28 +112,33 @@ ecs-sample-app/
      docker push <account-id>.dkr.ecr.us-east-1.amazonaws.com/sample-app-repo:latest
      ```
 
-5. **Deploy Infrastructure**:
-   ```bash
-   terraform apply
-   ```
+### 5. **Deploy Infrastructure**:
+  -  
+     ```bash
+     terraform apply
+     ```
    - Confirm the changes when prompted.
    - Note the outputs: `alb_dns_name` (for accessing the app) and `s3_bucket_name` (for uploading static assets).
 
-6. **Upload Static Assets**:
+### 6. **Upload Static Assets**:
    - Use the AWS CLI or console to upload assets to the S3 bucket:
      ```bash
      aws s3 cp <local-path> s3://<s3-bucket-name>/ --recursive
      ```
 
-7. **Access the Application**:
+### 7. **Access the Application**:
    - Open the `alb_dns_name` in a browser to access the deployed app.
 
-## Outputs
+---
+
+## 🖥️ Outputs
 
 - `alb_dns_name`: DNS name of the Application Load Balancer.
 - `s3_bucket_name`: Name of the S3 bucket for static assets.
 
-## Cleanup
+---
+
+## 🧽 Cleanup
 
 - Manually delete any objects in the S3 bucket and imanges from ECR before destroying to avoid errors.
 - To destroy the infrastructure:
@@ -132,11 +147,10 @@ terraform destroy
     ```
 - Confirm the destruction when prompted.
 
+---
 
-## Troubleshooting
+## 😨 Troubleshooting
 
 - **ECS Service Fails**: Check if the ECR image is available and the IAM role has correct permissions.
 - **ALB Returns 502**: Verify the ECS task is running and the health check path (`/`) is correct.
 - **Terraform Errors**: Ensure AWS credentials are valid and the region supports all resources.
-
-For issues, refer to the AWS console logs (CloudWatch, ECS, ALB) or open an issue in the repository.
