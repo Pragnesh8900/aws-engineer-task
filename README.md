@@ -143,7 +143,7 @@ ecs-sample-app/
 - Manually delete any objects in the S3 bucket and imanges from ECR before destroying to avoid errors.
 - To destroy the infrastructure:
     ```bash
-terraform destroy
+    terraform destroy
     ```
 - Confirm the destruction when prompted.
 
